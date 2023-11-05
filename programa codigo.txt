@@ -1,0 +1,548 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+#include <string.h>
+#include <locale.h>
+
+typedef struct{
+	char nome_completo[99];
+	//data de nascimento
+	int ano_nasc, mes_nasc, dia_nasc;
+	char email[50];
+	char numero_tel[20];
+	char genero[20];
+}cadastro;
+
+typedef struct{
+	char tema[75];
+	//data do bilhete
+	int ano, mes, dia;
+	char ingresso_tipo[30];
+	float quantidade_ingresso;
+	float valor_total_ingresso;
+}compra_de_bilhete;
+
+int main(){
+	setlocale(LC_ALL,"Portuguese");
+	setlocale(LC_ALL,"");
+	setlocale(LC_ALL,NULL);
+	
+	cadastro cadpessoa;
+	compra_de_bilhete bilhete_evento;
+	
+	cadpessoa.ano_nasc=0, cadpessoa.mes_nasc=0, cadpessoa.dia_nasc=0;
+	bilhete_evento.ano=0, bilhete_evento.mes=0, bilhete_evento.dia=0, bilhete_evento.quantidade_ingresso=0, bilhete_evento.valor_total_ingresso=0;
+	int menu_principal, opcoes_do_menu_principal, compra_de_bilhetes, escolher_evento, tipo_de_ingresso, ingresso_adicionado;
+	char entrada_cheia[17]="ENTRADA INTEIRA", meia_entrada[14]="MEIA ENTRADA", insencao[10]="INSENÇÃO";
+	char cem_anos_da_sem[40]="100 Anos da Semana de Arte Moderna", cento_e_cinquenta_anos[40]="150 Anos de Santos Dumont", jogos_olimpicos[40]="Jogos Olímpicos de Paris 2024";
+	int finalizar_cadastro;
+	
+	inicio_da_pagina:
+	system("cls");
+	printf("\nSEJA BEM-VINDO\n");
+	printf("AO MUSEU ArtTech !!!\n"); 
+	
+	//descricao do museu
+	
+	menu_principal:
+	printf("\n(ATENÇÃO: Digite o Número Correspondente a Opção Que Deseja Acessar.)");
+	printf("\n\n1. Menu Principal\n");
+    scanf("%d", &menu_principal);
+    fflush(stdin);
+    switch(menu_principal){
+    	case 1:
+    		printf("\n---MENU PRINCIPAL---\n");
+    		printf("--------------------\n");
+    		printf("\n1. Fazer Cadastro");
+    		printf("\n2. Compra de Bilhetes");
+    		printf("\n3. Finalizar Compra");
+    		printf("\n4. Verificar Disponibilidade");
+    		printf("\n5. Conheça os Temas Disponíveis");
+    		printf("\n6. Responder Questionario");
+    		printf("\n7. Sair\n");
+    		
+    		scanf("%d", &opcoes_do_menu_principal);
+    		fflush(stdin);
+    		switch(opcoes_do_menu_principal){
+    			fazer_cadastro:
+    			case 1:
+    				system("cls");
+    				printf("\n---FAZER CADASTRO---");
+    				printf("\n--------------------");
+    				printf("\n(ATENÇÃO: Os Dados Informados são de sua Responsabilidade! Por favor Digite Corretamente.)\n");
+    				printf("\nDigite seu Nome Completo: ");
+    				gets(cadpessoa.nome_completo);
+    				fflush(stdin);
+    				ano_de_nascimento:
+    				printf("\nInforme sua Data de Nascimento");
+    				printf("\nInforme o Ano: ");
+    				scanf("%d", &cadpessoa.ano_nasc);
+    				fflush(stdin);
+    				if(cadpessoa.ano_nasc > 2023){
+    					printf("\nOps! Parece que Voce Digitou uma Data Inválida, Selecione uma Data Válida.\n");
+    					goto ano_de_nascimento;
+					}
+					mes_de_nascimento:
+    				printf("Informe o Mes: ");
+    				scanf("%d", &cadpessoa.mes_nasc);
+    				fflush(stdin);
+    				if(cadpessoa.mes_nasc > 12){
+    					printf("\nOps! Parece que Voce Digitou uma Data Inválida, Selecione uma Data Válida.\n");
+    					goto mes_de_nascimento;
+					}
+					dia_de_nascimento:
+    				printf("Informe o Dia: ");
+    				scanf("%d", &cadpessoa.dia_nasc);
+    				fflush(stdin);
+    				if(cadpessoa.dia_nasc > 31){
+    					printf("\nOps! Parece que Voce Digitou uma Data Inválida, Selecione uma Data Válida.\n");
+    					goto dia_de_nascimento;
+					}
+    				printf("\nInforme seu E-mail: ");
+    				gets(cadpessoa.email);
+    				fflush(stdin);
+    				printf("Digite seu Número para Contato (xx)xxxxx-xxxx:");
+    				gets(cadpessoa.numero_tel);
+    				fflush(stdin);
+    				printf("\nInforme Seu Gênero: ");
+    				gets(cadpessoa.genero);
+    				fflush(stdin);
+    				printf("\nSeus Dados Cadastrados:\n");
+    				printf("Nome Completo: ");
+    				puts(cadpessoa.nome_completo);
+    				printf("Data de Nascimento: %d/%d/%d", cadpessoa.dia_nasc, cadpessoa.mes_nasc, cadpessoa.ano_nasc);
+    				printf("\nE-mail: %s", cadpessoa.email);
+    				printf("\nNúmero: %s", cadpessoa.numero_tel);
+    				printf("\nGênero: %s", cadpessoa.genero);
+    				printf("\nSeu Cadastro foi Finalizado! Suas Informações foram Salvas =)\n");
+    				printf("\n1. Finalizar Cadastro e Retornar ao Início da Página:");
+    				scanf("%d", &finalizar_cadastro);
+    				fflush(stdin);
+    				switch(finalizar_cadastro){
+    					case 1:
+    						goto inicio_da_pagina;
+    					break;
+    					default:
+    						goto inicio_da_pagina;
+    					break;
+					}
+    			break;
+    			
+    			compra_de_bilhetes:
+    			case 2:
+    				system("cls");
+    			    printf("\n---COMPRA DE BILHETES---");
+    				printf("\n------------------------");
+    				printf("\n(ATENÇÃO: Para Comprar um Bilhete, Primeiro é Necessario ter um Cadastro.\n");
+    				printf("\nSe Você Ainda nao Possui Um Cadastro, Faça um em 'Menu Principal'/'Fazer Cadastro')");
+    				printf("\nVocê só Conseguirá Comprar Ingressos Para um Tema de  Cada Vez!");
+    				printf("\n\nEscolher Evento:\n");
+    				printf("\n1. 100 Anos da Semana de Arte Moderna");
+    				printf("\n2. 150 Anos de Santos Dumont");
+    				printf("\n3. Jogos Olímpicos de Paris 2024");
+    				printf("\n4. Tema a ser definido\n");
+    				printf("\n5. VOLTAR AO INÍCIO DA PÁGINA\n");
+    				scanf("%d", &escolher_evento);
+    				fflush(stdin);
+    				switch(escolher_evento){
+    					case 1:
+    						cem_anos_da_semana_de_arte_moderna:
+    						printf("\n100 ANOS DA SEMANA DE ARTE MODERNA\n");
+    						strcpy(bilhete_evento.tema, cem_anos_da_sem);
+    						printf("\nSelecione a Data do seu Ingresso\n");
+    						printf("\nDefina o Ano:");
+    						scanf("%d", &bilhete_evento.ano);
+    						fflush(stdin);
+    						if(bilhete_evento.ano != 2023){
+    							printf("\nOps! Parece que Voce Digitou uma Data Inválida, Selecione uma Data Válida.\n");
+    							goto cem_anos_da_semana_de_arte_moderna;
+							}
+							printf("Defina o Mes:");
+							scanf("%d", &bilhete_evento.mes);
+							fflush(stdin);
+							if(bilhete_evento.mes < 9){
+							    printf("\nOps! Parece que Voce Digitou uma Data Inválida, Selecione uma Data Válida.\n");	
+							    goto cem_anos_da_semana_de_arte_moderna;
+							}
+							if(bilhete_evento.mes > 12){
+								printf("\nOps! Parece que Voce Digitou uma Data Inválida, Selecione uma Data Válida.\n");
+								goto cem_anos_da_semana_de_arte_moderna;
+							}
+							    printf("Defina o dia:");
+							scanf("%d", &bilhete_evento.dia);
+							if(bilhete_evento.dia > 31){
+							    printf("\nOps! Parece que Voce Digitou uma Data Inválida, Selecione uma Data Válida.\n");
+								goto cem_anos_da_semana_de_arte_moderna;	
+							}
+							if(bilhete_evento.dia > 30 && bilhete_evento.mes == 11){
+								printf("\nOps! Parece que Voce Digitou uma Data Inválida, Selecione uma Data Válida.\n");
+								goto cem_anos_da_semana_de_arte_moderna;	
+							}
+							if(bilhete_evento.dia < 1){
+								printf("\nOps! Parece que Voce Digitou uma Data Inválida, Selecione uma Data Válida.\n");
+								goto cem_anos_da_semana_de_arte_moderna;
+							}
+							printf("\n(ATENÇÃO: OS IGRESSOS SÃO VÁLIDOS DURANTE TODO O DIA QUE VOCE DEFINIU, SEM UM HORÁRIO ESPECÍFICO PARA ENTRAR.");
+							printf("\nVocê Pode Consultar o Horário Das Esposições no 'Menu Principal' na Opção 'Verificar Disponibilidade.')\n");
+							printf("\nDefina o Tipo de Ingresso que Irá Comprar, Lembrando que só Pode Comprar um Tipo de Cada Vez:\n");
+							printf("\n1. Inteira- 30,00");
+							printf("\n2. Meia Entrada- 15,00");
+							printf("\n3. Insenção- 00,00\n");
+							scanf("%d", &tipo_de_ingresso);
+							fflush(stdin);
+							switch(tipo_de_ingresso){
+								case 1:
+									printf("\nENTRADA INTEIRA\n");
+									strcpy(bilhete_evento.ingresso_tipo, entrada_cheia);
+									printf("\nDigite a Quantidade de Entradas que Deseja:\n");
+									scanf("%f", &bilhete_evento.quantidade_ingresso);
+									fflush(stdin);
+									bilhete_evento.valor_total_ingresso = bilhete_evento.quantidade_ingresso*30;
+									printf("Valor total: ");
+									printf("%.2f\n", bilhete_evento.valor_total_ingresso);
+									printf("\nDIGITE 1 PARA RETORNAR AO INÍCIO DA PÁGINA:");
+									scanf("%d", &ingresso_adicionado);
+									fflush(stdin);
+									switch(ingresso_adicionado){
+										case 1:
+											goto inicio_da_pagina;
+										break;
+										default:
+											goto inicio_da_pagina;
+										break;
+									}
+								break;
+								case 2:
+									printf("\nMEIA ENTRADA\n");
+									strcpy(bilhete_evento.ingresso_tipo, meia_entrada);
+									printf("\nDigite a Quantidade de Entradas que Deseja:\n");
+									scanf("%f", &bilhete_evento.quantidade_ingresso);
+									fflush(stdin);
+									bilhete_evento.valor_total_ingresso = bilhete_evento.quantidade_ingresso*15.00;
+									printf("Valor total: ");
+									printf("%.2f\n", bilhete_evento.valor_total_ingresso);
+									printf("\nDIGITE 1 PARA RETORNAR AO INÍCIO DA PÁGINA:");
+									scanf("%d", &ingresso_adicionado);
+									fflush(stdin);
+									switch(ingresso_adicionado){
+										case 1:
+											goto inicio_da_pagina;
+										break;
+										default:
+											goto inicio_da_pagina;
+										break;
+									}
+								break;
+								case 3:
+									printf("\nINSENÇÃO\n");
+									strcpy(bilhete_evento.ingresso_tipo, insencao);
+									printf("\nDigite a Quantidade de Entradas que Deseja:\n");
+									scanf("%f", &bilhete_evento.quantidade_ingresso);
+									fflush(stdin);
+									bilhete_evento.valor_total_ingresso = bilhete_evento.quantidade_ingresso*0;
+									printf("Valor total: ");
+									printf("%.2f\n", bilhete_evento.valor_total_ingresso);
+									printf("\nDIGITE 1 PARA RETORNAR AO INÍCIO DA PÁGINA:");
+									scanf("%d", &ingresso_adicionado);
+									fflush(stdin);
+									switch(ingresso_adicionado){
+										case 1:
+											goto inicio_da_pagina;
+										break;
+										default:
+											goto inicio_da_pagina;
+										break;
+									}
+							    break;
+							    default:
+							    	goto compra_de_bilhetes;
+							    break;
+							}	
+    					break;
+    					case 2:
+    						cento_e_cinquenta_anos_de_santos_dumont:
+    						printf("\n150 ANOS DE SANTOS DUMONT\n");
+    						strcpy(bilhete_evento.tema, cento_e_cinquenta_anos);
+    						printf("\nSelecione a Data do seu Ingresso\n");
+    						printf("\nDefina o Ano:");
+    						scanf("%d", &bilhete_evento.ano);
+    						fflush(stdin);
+    						if(bilhete_evento.ano != 2023){
+    							printf("\nOps! Parece que Voce Digitou uma Data Inválida, Selecione uma Data Válida.\n");
+    							goto cento_e_cinquenta_anos_de_santos_dumont;
+							}
+							printf("Defina o Mes:");
+							scanf("%d", &bilhete_evento.mes);
+							fflush(stdin);
+							if(bilhete_evento.mes < 9){
+							    printf("\nOps! Parece que Voce Digitou uma Data Inválida, Selecione uma Data Válida.\n");	
+							    goto cento_e_cinquenta_anos_de_santos_dumont;
+							}
+							if(bilhete_evento.mes > 12){
+								printf("\nOps! Parece que Voce Digitou uma Data Inválida, Selecione uma Data Válida.\n");
+								goto cento_e_cinquenta_anos_de_santos_dumont;
+							}
+							    printf("Defina o dia:");
+							scanf("%d", &bilhete_evento.dia);
+							if(bilhete_evento.dia > 31){
+							    printf("\nOps! Parece que Voce Digitou uma Data Inválida, Selecione uma Data Válida.\n");
+								goto cento_e_cinquenta_anos_de_santos_dumont;	
+							}
+							if(bilhete_evento.dia > 30 && bilhete_evento.mes == 11){
+								printf("\nOps! Parece que Voce Digitou uma Data Inválida, Selecione uma Data Válida.\n");
+								goto cento_e_cinquenta_anos_de_santos_dumont;	
+							}
+							if(bilhete_evento.dia < 1){
+								printf("\nOps! Parece que Voce Digitou uma Data Inválida, Selecione uma Data Válida.\n");
+								goto cento_e_cinquenta_anos_de_santos_dumont;
+							}
+    						printf("\n(ATENÇÃO: OS IGRESSOS SÃO VÁLIDOS DURANTE TODO O DIA QUE VOCE DEFINIU, SEM UM HORÁRIO ESPECÍFICO PARA ENTRAR.");
+							printf("\nVocê Pode Consultar o Horário Das Esposições no 'Menu Principal' na Opção 'Verificar Disponibilidade.')\n");
+							printf("\nDefina o Tipo de Ingresso que Irá Comprar, Lembrando que só Pode Comprar um Tipo de Cada Vez:\n");
+							printf("\n1. Inteira- 30,00");
+							printf("\n2. Meia Entrada- 15,00");
+							printf("\n3. Insenção- 00,00\n");
+							scanf("%d", &tipo_de_ingresso);
+							fflush(stdin);
+							switch(tipo_de_ingresso){
+								case 1:
+									printf("\nENTRADA INTEIRA\n");
+									strcpy(bilhete_evento.ingresso_tipo, entrada_cheia);
+									printf("\nDigite a Quantidade de Entradas que Deseja:\n");
+									scanf("%f", &bilhete_evento.quantidade_ingresso);
+									fflush(stdin);
+									bilhete_evento.valor_total_ingresso = bilhete_evento.quantidade_ingresso*30;
+									printf("Valor total: ");
+									printf("%.2f\n", bilhete_evento.valor_total_ingresso);
+									printf("\nDIGITE 1 PARA RETORNAR AO INÍCIO DA PÁGINA:");
+									scanf("%d", &ingresso_adicionado);
+									fflush(stdin);
+									switch(ingresso_adicionado){
+										case 1:
+											goto inicio_da_pagina;
+										break;
+										default:
+											goto inicio_da_pagina;
+										break;
+									}
+								break;
+								case 2:
+									printf("\nMEIA ENTRADA\n");
+									strcpy(bilhete_evento.ingresso_tipo, meia_entrada);
+									printf("\nDigite a Quantidade de Entradas que Deseja:\n");
+									scanf("%f", &bilhete_evento.quantidade_ingresso);
+									fflush(stdin);
+									bilhete_evento.valor_total_ingresso = bilhete_evento.quantidade_ingresso*15.00;
+									printf("Valor total: ");
+									printf("%.2f\n", bilhete_evento.valor_total_ingresso);
+									printf("\nDIGITE 1 PARA RETORNAR AO INÍCIO DA PÁGINA:");
+									scanf("%d", &ingresso_adicionado);
+									fflush(stdin);
+									switch(ingresso_adicionado){
+										case 1:
+											goto inicio_da_pagina;
+										break;
+										default:
+											goto inicio_da_pagina;
+										break;
+									}
+								break;
+								case 3:
+									printf("\nINSENÇÃO\n");
+									strcpy(bilhete_evento.ingresso_tipo, insencao);
+									printf("\nDigite a Quantidade de Entradas que Deseja:\n");
+									scanf("%f", &bilhete_evento.quantidade_ingresso);
+									fflush(stdin);
+									bilhete_evento.valor_total_ingresso = bilhete_evento.quantidade_ingresso*0;
+									printf("Valor total: ");
+									printf("%.2f\n", bilhete_evento.valor_total_ingresso);
+									printf("\nDIGITE 1 PARA RETORNAR AO INÍCIO DA PÁGINA:");
+									scanf("%d", &ingresso_adicionado);
+									fflush(stdin);
+									switch(ingresso_adicionado){
+										case 1:
+											goto inicio_da_pagina;
+										break;
+										default:
+											goto inicio_da_pagina;
+										break;
+									}
+							    break;
+							    default:
+							    	goto compra_de_bilhetes;
+							    break;
+							}
+    					break;
+    					case 3:
+    						jogos_olimpicos_de_paris_dois_mil_e_vinte_e_quatro:
+    						printf("\nJOGOS OLÍMPICOS DE PARIS 2024");
+    						strcpy(bilhete_evento.tema, jogos_olimpicos);
+    						printf("\nSelecione a Data do seu Ingresso\n");
+    						printf("\nDefina o Ano:");
+    						scanf("%d", &bilhete_evento.ano);
+    						fflush(stdin);
+    						if(bilhete_evento.ano != 2023){
+    							printf("\nOps! Parece que Voce Digitou uma Data Inválida, Selecione uma Data Válida.\n");
+    							goto jogos_olimpicos_de_paris_dois_mil_e_vinte_e_quatro;
+							}
+							printf("Defina o Mes:");
+							scanf("%d", &bilhete_evento.mes);
+							fflush(stdin);
+							if(bilhete_evento.mes < 9){
+							    printf("\nOps! Parece que Voce Digitou uma Data Inválida, Selecione uma Data Válida.\n");	
+							    goto jogos_olimpicos_de_paris_dois_mil_e_vinte_e_quatro;
+							}
+							if(bilhete_evento.mes > 12){
+								printf("\nOps! Parece que Voce Digitou uma Data Inválida, Selecione uma Data Válida.\n");
+								goto jogos_olimpicos_de_paris_dois_mil_e_vinte_e_quatro;
+							}
+							    printf("Defina o dia:");
+							scanf("%d", &bilhete_evento.dia);
+							if(bilhete_evento.dia > 31){
+							    printf("\nOps! Parece que Voce Digitou uma Data Inválida, Selecione uma Data Válida.\n");
+								goto jogos_olimpicos_de_paris_dois_mil_e_vinte_e_quatro;	
+							}
+							if(bilhete_evento.dia > 30 && bilhete_evento.mes == 11){
+								printf("\nOps! Parece que Voce Digitou uma Data Inválida, Selecione uma Data Válida.\n");
+								goto jogos_olimpicos_de_paris_dois_mil_e_vinte_e_quatro;	
+							}
+							if(bilhete_evento.dia < 1){
+								printf("\nOps! Parece que Voce Digitou uma Data Inválida, Selecione uma Data Válida.\n");
+								goto jogos_olimpicos_de_paris_dois_mil_e_vinte_e_quatro;
+							}
+							printf("\n(ATENÇÃO: OS IGRESSOS SÃO VÁLIDOS DURANTE TODO O DIA QUE VOCE DEFINIU, SEM UM HORÁRIO ESPECÍFICO PARA ENTRAR.");
+							printf("\nVocê Pode Consultar o Horário Das Esposições no 'Menu Principal' na Opção 'Verificar Disponibilidade.')\n");
+							printf("\nDefina o Tipo de Ingresso que Irá Comprar, Lembrando que só Pode Comprar um Tipo de Cada Vez:\n");
+							printf("\n1. Inteira- 30,00");
+							printf("\n2. Meia Entrada- 15,00");
+							printf("\n3. Insenção- 00,00\n");
+							scanf("%d", &tipo_de_ingresso);
+							fflush(stdin);
+							switch(tipo_de_ingresso){
+								case 1:
+									printf("\nENTRADA INTEIRA\n");
+									strcpy(bilhete_evento.ingresso_tipo, entrada_cheia);
+									printf("\nDigite a Quantidade de Entradas que Deseja:\n");
+									scanf("%f", &bilhete_evento.quantidade_ingresso);
+									fflush(stdin);
+									bilhete_evento.valor_total_ingresso = bilhete_evento.quantidade_ingresso*30;
+									printf("Valor total: ");
+									printf("%.2f\n", bilhete_evento.valor_total_ingresso);
+									printf("\nDIGITE 1 PARA RETORNAR AO INÍCIO DA PÁGINA:");
+									scanf("%d", &ingresso_adicionado);
+									fflush(stdin);
+									switch(ingresso_adicionado){
+										case 1:
+											goto inicio_da_pagina;
+										break;
+										default:
+											goto inicio_da_pagina;
+										break;
+									}
+								break;
+								case 2:
+									printf("\nMEIA ENTRADA\n");
+									strcpy(bilhete_evento.ingresso_tipo, meia_entrada);
+									printf("\nDigite a Quantidade de Entradas que Deseja:\n");
+									scanf("%f", &bilhete_evento.quantidade_ingresso);
+									fflush(stdin);
+									bilhete_evento.valor_total_ingresso = bilhete_evento.quantidade_ingresso*15.00;
+									printf("Valor total: ");
+									printf("%.2f\n", bilhete_evento.valor_total_ingresso);
+									printf("\nDIGITE 1 PARA RETORNAR AO INÍCIO DA PÁGINA:");
+									scanf("%d", &ingresso_adicionado);
+									fflush(stdin);
+									switch(ingresso_adicionado){
+										case 1:
+											goto inicio_da_pagina;
+										break;
+										default:
+											goto inicio_da_pagina;
+										break;
+									}
+								break;
+								case 3:
+									printf("\nINSENÇÃO\n");
+									strcpy(bilhete_evento.ingresso_tipo, insencao);
+									printf("\nDigite a Quantidade de Entradas que Deseja:\n");
+									scanf("%f", &bilhete_evento.quantidade_ingresso);
+									fflush(stdin);
+									bilhete_evento.valor_total_ingresso = bilhete_evento.quantidade_ingresso*0;
+									printf("Valor total: ");
+									printf("%.2f\n", bilhete_evento.valor_total_ingresso);
+									printf("\nDIGITE 1 PARA RETORNAR AO INÍCIO DA PÁGINA:");
+									scanf("%d", &ingresso_adicionado);
+									fflush(stdin);
+									switch(ingresso_adicionado){
+										case 1:
+											goto inicio_da_pagina;
+										break;
+										default:
+											goto inicio_da_pagina;
+										break;
+									}
+							    break;
+							    default:
+							    	goto compra_de_bilhetes;
+							    break;
+							}
+    					break;
+    					case 4:
+    						printf("\nTEMA A SER DEFINIDO");
+    					break;
+    					case 5:
+    						goto inicio_da_pagina;
+    					break;
+    					default:
+    						goto compra_de_bilhetes;
+    					break;
+					}
+    			break;
+    			case 3:
+    				system("cls");
+    				printf("\n---FINALIZAR COMPRA---");
+    				printf("\n----------------------");
+    				printf("\nSeus Dados Cadastrados:\n");
+    				printf("Nome Completo: ");
+    				puts(cadpessoa.nome_completo);
+    				printf("Data de Nascimento: %d/%d/%d", cadpessoa.dia_nasc, cadpessoa.mes_nasc, cadpessoa.ano_nasc);
+    				printf("\nE-mail: %s", cadpessoa.email);
+    				printf("\nNúmero: %s", cadpessoa.numero_tel);
+    				printf("\nGênero: %s", cadpessoa.genero);
+    				
+    				printf("\n\nDados da Compra: ");
+    				printf("\nTema: %s", bilhete_evento.tema);
+    				printf("\nData do Ingresso: %d/%d/%d", bilhete_evento.dia, bilhete_evento.mes, bilhete_evento.ano);
+    				printf("\nTipo de Ingresso: %s", bilhete_evento.ingresso_tipo);
+    				printf("\nQuantidade de Ingressos: %.0f", bilhete_evento.quantidade_ingresso);
+    				printf("\nValor Total da Compra: %.2f", bilhete_evento.valor_total_ingresso);
+    			break;
+    			case 4:
+    				system("cls");
+    				printf("\n---VERIFICAR DISPONIBILIDADE---");
+    				printf("\n-------------------------------");
+    			break;
+    			case 5:	
+    			    system("cls");
+    			    printf("\n---CONHEÇA OS TEMAS DISPONÍVEIS---");
+    				printf("\n----------------------------------");
+    			break;
+    			case 6:
+    				system("cls");
+    				printf("\n---RESPONDER QUESTIONÁRIO---");
+    				printf("\n----------------------------");
+    			break;
+    			case 7:
+    				goto inicio_da_pagina;
+    			break;
+    			default:
+    				goto inicio_da_pagina;
+    			break;
+			}
+    	break;
+    default:
+    	goto inicio_da_pagina;
+    break;
+	}
+	return 0;
+}
